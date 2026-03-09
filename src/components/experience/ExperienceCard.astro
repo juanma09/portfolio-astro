@@ -1,0 +1,70 @@
+---
+interface Props {
+  role: string;
+  company: string;
+  period: string;
+  description: string[];
+  technologies?: string[];
+}
+
+const {
+  role,
+  company,
+  period,
+  description,
+  technologies,
+} = Astro.props;
+---
+
+<div class="relative group/card">
+  {/* Timeline Dot */}
+  <div class="absolute -left-[27px] top-7 z-10">
+    <div class="h-3 w-3 rounded-full bg-zinc-950 border-2 border-zinc-800 group-hover/card:border-emerald-500 transition-colors duration-500 flex items-center justify-center">
+      <div class="h-1 w-1 rounded-full bg-zinc-800 group-hover/card:bg-emerald-500 transition-colors duration-500" />
+    </div>
+  </div>
+
+  <div class="relative p-6 rounded-xl bg-zinc-900/50 border border-zinc-800/50 hover:border-emerald-500/20 hover:bg-zinc-900/80 transition-all duration-500 flex flex-col gap-4">
+    {/* Header */}
+    <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
+      <div class="flex flex-col gap-1">
+        <h4 class="text-zinc-100 font-medium text-lg tracking-tight group-hover/card:text-emerald-400 transition-colors duration-500">
+          {role}
+        </h4>
+        <div class="flex items-center gap-2 text-sm text-emerald-500/80 font-mono">
+          <span class="h-1 w-1 rounded-full bg-emerald-500/50" />
+          {company}
+        </div>
+      </div>
+      <div class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest group-hover/card:text-emerald-500/60 transition-colors duration-500">
+        {period}
+      </div>
+    </div>
+
+    {/* Description List */}
+    <ul class="flex flex-col gap-2">
+      {description.map((item) => (
+        <li class="flex items-start gap-3 text-sm text-zinc-400/90 leading-relaxed">
+          <div class="mt-[7px] h-1 w-1 rounded-full bg-zinc-800 group-hover/card:bg-emerald-500/40 transition-colors duration-500 flex-shrink-0" />
+          <span>{item}</span>
+        </li>
+      ))}
+    </ul>
+
+    {/* Tech Stack */}
+    {technologies && (
+      <div class="flex flex-wrap gap-1.5 pt-1">
+        {technologies.map((tech) => (
+          <span
+            class="px-2 py-0.5 text-[9px] uppercase tracking-wider font-mono font-medium text-zinc-500 bg-zinc-800/20 rounded border border-zinc-800/30 group-hover/card:border-emerald-500/10 group-hover/card:text-emerald-400/50 transition-colors duration-500"
+          >
+            {tech}
+          </span>
+        ))}
+      </div>
+    )}
+
+    {/* Subtle Glow Effect */}
+    <div class="absolute inset-0 -z-10 bg-emerald-500/2 blur-2xl opacity-0 group-hover/card:opacity-100 transition-opacity duration-700" />
+  </div>
+</div>

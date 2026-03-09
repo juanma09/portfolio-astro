@@ -1,0 +1,42 @@
+---
+// src/components/layout/LayoutSection.astro
+interface Props {
+    reverse?: boolean; // If true, 30% on left, 70% on right
+}
+
+const { reverse = false } = Astro.props;
+---
+
+<section
+    class:list={[
+        "max-w-6xl mx-auto px-6 grid grid-cols-1 gap-12 lg:gap-20 items-start py-12",
+        reverse ? "lg:grid-cols-[320px_1fr]" : "lg:grid-cols-[1fr_320px]",
+    ]}
+>
+    <div
+        class:list={[
+            "w-full min-w-0 flex flex-col gap-6",
+            { "lg:order-last": reverse },
+        ]}
+    >
+        <slot name="main" />
+    </div>
+
+    <aside
+        class:list={[
+            "w-full lg:sticky lg:top-24 flex flex-col gap-4",
+            { "lg:order-first": reverse },
+        ]}
+    >
+        <slot name="sidebar" />
+    </aside>
+</section>
+
+<style>
+    /* Optional: Add a subtle vertical divider between columns on desktop */
+    @media (min-width: 1024px) {
+        section {
+            position: relative;
+        }
+    }
+</style>

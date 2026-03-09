@@ -1,0 +1,117 @@
+---
+import ExperienceGroup from "./ExperienceGroup.astro";
+
+const workHistory = [
+  {
+    company: "Lumina AI",
+    role: "Senior Full Stack Engineer",
+    period: "2024 — PRESENT",
+    description: [
+      "Architecting distributed systems for real-time data processing.",
+    ],
+    technologies: ["React", "Astro", "TypeScript"],
+  },
+  {
+    company: "Nexus Systems",
+    role: "Frontend Lead",
+    period: "2022 — 2024",
+    description: [
+      "Led the migration of a legacy dashboard to a modern tech stack.",
+    ],
+    technologies: ["Next.js", "Tailwind CSS"],
+  },
+];
+
+const studyHistory = [
+  {
+    company: "Tech University",
+    role: "B.Sc. in Computer Science",
+    period: "2018 — 2022",
+    description: [
+      "Specialized in Distributed Systems and Cloud Computing.",
+      "Completed thesis on low-latency microservices.",
+    ],
+    technologies: ["C++", "Python", "Docker", "Kubernetes"],
+  },
+  {
+    company: "Online Academy",
+    role: "Full Stack Development Bootcamp",
+    period: "2017",
+    description: [
+      "Intensive training on modern web technologies and agile methodologies.",
+    ],
+    technologies: ["JavaScript", "React", "Node.js"],
+  },
+];
+---
+
+<section id="experience" class="w-full">
+  <div class="mb-10 space-y-4">
+    <h2 class="text-3xl md:text-4xl font-bold tracking-tighter text-white">
+      Experience
+    </h2>
+    <div class="h-1.5 w-15 bg-emerald-500 rounded-full"></div>
+  </div>
+  <div class="flex flex-col gap-12">
+    <!-- Tab Switcher -->
+    <div class="flex gap-8 border-b border-zinc-800/50">
+      <button
+        id="work-tab"
+        class="pb-4 px-2 text-sm font-mono uppercase tracking-widest transition-all duration-300 border-b-2 border-emerald-500 text-zinc-100"
+      >
+        Work
+      </button>
+      <button
+        id="study-tab"
+        class="pb-4 px-2 text-sm font-mono uppercase tracking-widest transition-all duration-300 border-b-2 border-transparent text-zinc-500 hover:text-zinc-300"
+      >
+        Study
+      </button>
+    </div>
+
+    <!-- Content Containers -->
+    <div id="work-content" class="block animate-in fade-in duration-500">
+      <ExperienceGroup title="Professional Experience" items={workHistory} />
+    </div>
+
+    <div id="study-content" class="hidden animate-in fade-in duration-500">
+      <ExperienceGroup title="Educational Background" items={studyHistory} />
+    </div>
+  </div>
+</section>
+
+<script>
+  const workTab = document.getElementById("work-tab");
+  const studyTab = document.getElementById("study-tab");
+  const workContent = document.getElementById("work-content");
+  const studyContent = document.getElementById("study-content");
+
+  function switchTab(activeId: "work" | "study") {
+    if (!workTab || !studyTab || !workContent || !studyContent) return;
+
+    if (activeId === "work") {
+      workTab.classList.add("border-emerald-500", "text-zinc-100");
+      workTab.classList.remove("border-transparent", "text-zinc-500");
+      studyTab.classList.remove("border-emerald-500", "text-zinc-100");
+      studyTab.classList.add("border-transparent", "text-zinc-500");
+
+      workContent.classList.remove("hidden");
+      workContent.classList.add("block");
+      studyContent.classList.add("hidden");
+      studyContent.classList.remove("block");
+    } else {
+      studyTab.classList.add("border-emerald-500", "text-zinc-100");
+      studyTab.classList.remove("border-transparent", "text-zinc-500");
+      workTab.classList.remove("border-emerald-500", "text-zinc-100");
+      workTab.classList.add("border-transparent", "text-zinc-500");
+
+      studyContent.classList.remove("hidden");
+      studyContent.classList.add("block");
+      workContent.classList.add("hidden");
+      workContent.classList.remove("block");
+    }
+  }
+
+  workTab?.addEventListener("click", () => switchTab("work"));
+  studyTab?.addEventListener("click", () => switchTab("study"));
+</script>

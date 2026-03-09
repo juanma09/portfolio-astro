@@ -1,0 +1,105 @@
+---
+import polyline from "@mapbox/polyline";
+import sample from "./sample.json"; // Assuming your JSON is local
+
+const {
+    name,
+    distance,
+    moving_time,
+    total_elevation_gain,
+    sport_type,
+    start_date,
+} = sample;
+const encodedPath = sample.map.summary_polyline;
+const points = polyline.decode(encodedPath);
+
+// 1. Logic for the SVG Path (Normalization)
+const lats = points.map((p) => p[0]);
+const lngs = points.map((p) => p[1]);
+const minLat = Math.min(...lats),
+    maxLat = Math.max(...lats);
+const minLng = Math.min(...lngs),
+    maxLng = Math.max(...lngs);
+
+const size = 150;
+const padding = 20;
+const innerSize = size - padding * 2;
+
+const svgPoints = points.map(([lat, lng]) => {
+    const x = ((lng - minLng) / (maxLng - minLng)) * innerSize + padding;
+    const y =
+        innerSize - ((lat - minLat) / (maxLat - minLat)) * innerSize + padding;
+    return `${x.toFixed(2)},${y.toFixed(2)}`;
+});
+const pathData = `M ${svgPoints.join(" L ")}`;
+
+// 2. Data Formatting
+const formattedDistance = (distance / 1000).toFixed(1); // meters to km
+const minutes = Math.floor(moving_time / 60);
+const dateLabel = new Date(start_date).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+});
+---
+
+<div
+    class="group relative bg-zinc-950 p-5 rounded-2xl border border-zinc-800 hover:border-emerald-500/50 transition-all duration-300 overflow-hidden shadow-2xl w-full max-w-xs mx-auto lg:max-w-none"
+>
+    <div
+        class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-3xl group-hover:bg-emerald-500/20 transition-colors"
+    >
+    </div>
+
+    <div class="flex flex-col gap-4">
+        <div class="flex justify-between items-start gap-4">
+            <div class="flex-1 min-w-0">
+                <span
+                    class="text-[10px] font-mono uppercase tracking-[0.2em] text-emerald-500/70 font-bold block truncate"
+                    >{sport_type}</span
+                >
+                <h3 class="text-zinc-100 font-medium leading-tight truncate" title={name}>{name}</h3>
+                <p class="text-zinc-500 text-[11px] font-mono">{dateLabel}</p>
+            </div>
+            <div class="bg-zinc-900 px-2 py-1 rounded border border-zinc-800 flex-shrink-0">
+                <span class="text-zinc-300 font-mono text-xs"
+                    >{formattedDistance}km</span
+                >
+            </div>
+        </div>
+
+        <div class="relative py-2 flex justify-center items-center w-full">
+            <svg
+                viewBox={`0 0 ${size} ${size}`}
+                class="w-full max-w-[140px] md:max-w-[160px] h-auto drop-shadow-[0_0_8px_rgba(16,185,129,0.3)]"
+            >
+                <path
+                    d={pathData}
+                    fill="none"
+                    stroke="#10b981"
+                    stroke-width="2.5"
+                    stroke-linejoin="round"
+                    stroke-linecap="round"
+                    class="transition-all duration-500"></path>
+            </svg>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2 border-t border-zinc-900 pt-4">
+            <div class="flex flex-col">
+                <span
+                    class="text-zinc-600 text-[9px] uppercase font-bold tracking-widest"
+                    >Time</span
+                >
+                <span class="text-zinc-300 font-mono text-sm">{minutes}m</span>
+            </div>
+            <div class="flex flex-col text-right">
+                <span
+                    class="text-zinc-600 text-[9px] uppercase font-bold tracking-widest"
+                    >Elev</span
+                >
+                <span class="text-zinc-300 font-mono text-sm"
+                    >+{total_elevation_gain}m</span
+                >
+            </div>
+        </div>
+    </div>
+</div>

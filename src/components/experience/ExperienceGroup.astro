@@ -1,0 +1,30 @@
+---
+import ExperienceCard from './ExperienceCard.astro';
+
+interface Props {
+  title: string;
+  items: any[]; // Ideally use a shared type
+}
+
+const { title, items } = Astro.props;
+---
+
+<div class="flex flex-col gap-8 group">
+  {/* Section Header */}
+  <div class="flex items-center gap-4">
+    <h3 class="text-zinc-500 font-mono text-[11px] uppercase tracking-[0.3em] font-medium group-hover:text-emerald-400 transition-colors duration-500">
+      {title}
+    </h3>
+    <div class="h-px flex-grow bg-gradient-to-r from-zinc-800 to-transparent group-hover:from-emerald-900/40 transition-all duration-700"></div>
+  </div>
+
+  {/* Cards with Timeline Line */}
+  <div class="relative flex flex-col gap-4 pl-8">
+    {/* Vertical Timeline Line */}
+    <div class="absolute left-[11px] top-2 bottom-2 w-[2px] bg-gradient-to-b from-emerald-500/50 via-zinc-800 to-zinc-800/20 rounded-full" />
+    
+    {items.map((item) => (
+      <ExperienceCard {...item} />
+    ))}
+  </div>
+</div>

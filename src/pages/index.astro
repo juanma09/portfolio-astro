@@ -1,17 +1,51 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import NameHeader from "../components/NameHeader.astro";
+import Skills from "../components/skills/Skills.astro";
+import Projects from "../components/projects/Projects.astro";
+import Experience from "../components/experience/Experience.astro";
+import Chessboard from "../components/chess/Chessboard";
+import LayoutSection from "../layouts/LayoutSection.astro";
 
+import "../styles/global.css";
+import StravaSummary from "../components/strava/stravaSummary.astro";
+import WakaTimeSummary from "../components/wakatime/WakaTimeSummary";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout>
+    <NameHeader />
+
+    <LayoutSection>
+        <div slot="main">
+            <Experience />
+        </div>
+        <div slot="sidebar" class="mt-2 lg:mt-[88px]">
+            <p
+                class="text-[10px] font-mono uppercase tracking-[0.2em] text-emerald-500 font-bold mb-4 ml-1"
+            >
+                Latest Run
+            </p>
+            <StravaSummary />
+        </div>
+    </LayoutSection>
+
+    <LayoutSection reverse={true}>
+        <div slot="main">
+            <Projects />
+        </div>
+        <div slot="sidebar" class="mt-2 lg:mt-[88px]">
+            <div class="flex justify-center lg:justify-start">
+                <Chessboard client:load />
+            </div>
+        </div>
+    </LayoutSection>
+
+    <LayoutSection>
+        <div slot="main">
+            <Skills />
+        </div>
+        <div slot="sidebar" class="mt-2 lg:mt-[88px]">
+            <WakaTimeSummary client:visible />
+        </div>
+    </LayoutSection>
+</BaseLayout>

@@ -1,0 +1,53 @@
+---
+import ProjectCard from "./projectCard.astro";
+const projects = [
+  {
+    title: "NeuralBridge Middleware",
+    description: "A high-performance Node.js service connecting local Ollama instances to Chatwoot webhooks. Features request queuing, token-usage monitoring, and automated response streaming.",
+    link: "https://github.com/yourusername/neural-bridge",
+    imageUrl: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?q=80&w=2000&auto=format&fit=crop",
+    tags: ["Node.js", "Ollama", "Webhooks", "LLM Ops", "TypeScript"]
+  },
+  {
+    title: "Architect Flow",
+    description: "Distributed system visualizer that transforms Docker Compose files into interactive SVG architecture maps. Built with TypeScript and focused on infrastructure observability.",
+    link: "https://github.com/yourusername/architect-flow",
+    imageUrl: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?q=80&w=2000&auto=format&fit=crop",
+    tags: ["TypeScript", "Docker", "SVG", "Infrastructure", "DevOps"]
+  },
+  {
+    title: "PulseSync API",
+    description: "Custom YouTube Music integration using cookie-based authentication and Redis for caching. Powers real-time 'Now Playing' indicators across various dashboard platforms.",
+    link: "https://github.com/yourusername/pulsesync",
+    imageUrl: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?q=80&w=2000&auto=format&fit=crop",
+    tags: ["Redis", "API Design", "Auth", "YouTube Music", "Backend"]
+  },
+  {
+    title: "NeuralBridge Middleware", // Note: This appears to be a duplicate in your list
+    description: "A high-performance Node.js service connecting local Ollama instances to Chatwoot webhooks. Features request queuing, token-usage monitoring, and automated response streaming.",
+    link: "https://github.com/yourusername/neural-bridge",
+    imageUrl: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?q=80&w=2000&auto=format&fit=crop",
+    tags: ["Node.js", "AI", "Streaming", "Monitoring", "Queue"]
+  },
+];
+---
+
+<section id="projects" class="w-full">
+  <div class="mb-10 space-y-4">
+    <h2 class="text-3xl md:text-4xl font-bold tracking-tighter text-white">
+      Projects
+    </h2>
+    <div class="h-1.5 w-15 bg-emerald-500 rounded-full"></div>
+  </div>
+
+  <div
+    class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-12 lg:gap-10 lg:gap-y-16"
+  >
+    {projects.map((project) => <ProjectCard {...project} />)}
+  </div>
+
+  <div
+    class="mt-12 h-[2px] w-full bg-gradient-to-r from-zinc-800 to-transparent"
+  >
+  </div>
+</section>

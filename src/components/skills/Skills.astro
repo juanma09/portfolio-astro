@@ -1,0 +1,80 @@
+---
+import SkillGroup from "./SkillGroup.tsx";
+
+const skillData = [
+    {
+        category: "Languages",
+        items: ["TypeScript", "Node.js", "Python", "Go", "SQL"],
+    },
+    {
+        category: "Frameworks",
+        items: ["Astro", "React", "FastAPI", "Express", "Tailwind"],
+    },
+    {
+        category: "Infrastructure",
+        items: ["Docker", "Ollama", "Redis", "PostgreSQL", "Nginx"],
+    },
+    {
+        category: "AI & Automation",
+        items: ["LangChain", "Chatwoot", "Vector DBs", "OpenAI API"],
+    },
+];
+---
+
+<section id="skills" class="max-w-6xl mx-auto px-6 pt-12 mb-20">
+    <div class="mb-20 space-y-4">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tighter text-white">
+            Technical Arsenal
+        </h2>
+        <div class="h-1 w-20 bg-emerald-500 rounded-full"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
+        {
+            skillData.map((group, index) => (
+                <div
+                    class="reveal-on-scroll opacity-0"
+                    style={`animation-delay: ${index * 150}ms;`}
+                >
+                    <SkillGroup
+                        category={group.category}
+                        items={group.items}
+                        client:visible
+                    />
+                </div>
+            ))
+        }
+    </div>
+</section>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-reveal');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.reveal-on-scroll').forEach((el) => {
+        observer.observe(el);
+    });
+</script>
+
+<style is:global>
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animate-reveal {
+    animation: reveal 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+</style>
