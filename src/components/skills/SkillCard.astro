@@ -1,0 +1,78 @@
+---
+import {
+    Cpu,
+    Database,
+    Workflow,
+    Terminal,
+    Layers,
+    Code,
+    Globe,
+    Server,
+    MessageSquare,
+    Bot,
+} from "lucide-react";
+import type { LucideIcon } from "lucide-react";
+
+interface Props {
+    name: string;
+    icon: string;
+}
+
+const { name, icon } = Astro.props;
+
+// Check if it's a simple-icon
+const isSimpleIcon = icon.startsWith("simple-icons:");
+const simpleIconSlug = isSimpleIcon ? icon.split(":")[1] : "";
+const iconUrl = isSimpleIcon
+    ? `https://cdn.simpleicons.org/${simpleIconSlug}/ffffff`
+    : "";
+
+// Map icon strings to Lucide components
+const lucideIcons = {
+    "lucide:cpu": Cpu,
+    "lucide:database": Database,
+    "lucide:workflow": Workflow,
+    "lucide:terminal": Terminal,
+    "lucide:layers": Layers,
+    "lucide:code": Code,
+    "lucide:globe": Globe,
+    "lucide:server": Server,
+    "lucide:message-square": MessageSquare,
+    "lucide:bot": Bot,
+};
+
+const LucideIconComp: LucideIcon = (!isSimpleIcon ? lucideIcons[icon as keyof typeof lucideIcons] : null) || Code;
+---
+
+<div
+    class="group relative w-fit px-4 py-3 rounded-xl border border-white/5 bg-white/[0.02] transition-all duration-300 hover:border-emerald-500/30 hover:bg-white/[0.05] hover:shadow-2xl hover:shadow-emerald-500/5"
+>
+    <div class="flex items-center gap-3">
+        <div
+            class="p-2 rounded-lg bg-white/5 border border-white/10 group-hover:bg-emerald-500/10 group-hover:border-emerald-500/20 group-hover:scale-110 transition-all duration-300 flex items-center justify-center min-w-[36px] aspect-square"
+        >
+            {
+                isSimpleIcon ? (
+                    <img
+                        src={iconUrl}
+                        alt={name}
+                        class="w-4 h-4 opacity-70 group-hover:opacity-100 transition-opacity"
+                    />
+                ) : (
+                    <LucideIconComp className="w-4 h-4 text-zinc-400 group-hover:text-emerald-400 transition-colors" />
+                )
+            }
+        </div>
+        <h4
+            class="text-[12px] sm:text-sm font-medium text-zinc-400 group-hover:text-white transition-colors leading-tight min-w-0"
+        >
+            {name}
+        </h4>
+    </div>
+
+    {/* Subtle glow effect on hover */}
+    <div
+        class="absolute inset-x-4 bottom-0 h-px bg-gradient-to-r from-transparent via-emerald-500/0 to-transparent group-hover:via-emerald-500/40 transition-all duration-500"
+    >
+    </div>
+</div>

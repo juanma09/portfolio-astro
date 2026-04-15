@@ -180,8 +180,33 @@ export default function Chessboard() {
                             attemptOpponentMove(game, nextIndex);
                         }
                     } else {
+                        // WRONG MOVE: show it and then undo it
+                        const from = selectedSquare!;
+                        const to = square;
+                        const prevLastMove = lastMove;
+                        const prevPieceIds = { ...pieceIds };
+
+                        game.move(move); // Temporarily apply the wrong move
+                        setLastMove({ from, to });
+                        setPieceIds(prev => {
+                            const next = { ...prev };
+                            const id = next[from];
+                            if (id) {
+                                delete next[from];
+                                next[to] = id;
+                            }
+                            return next;
+                        });
+                        setGame(new Chess(game.fen()));
                         setPuzzleStatus('failed');
-                        setTimeout(resetPuzzle, 1500);
+
+                        setTimeout(() => {
+                            game.undo(); // Pull it back
+                            setLastMove(prevLastMove);
+                            setPieceIds(prevPieceIds); // Restore previous piece IDs to glide back
+                            setGame(new Chess(game.fen()));
+                            setPuzzleStatus('playing');
+                        }, 1000);
                     }
                 }
             } catch (e) {
@@ -217,19 +242,6 @@ export default function Chessboard() {
                     </p>
                 </div>
 
-                {/* Center: Smaller, Compact Turn Indicator */}
-                <div className={`flex items-center gap-2 px-3 py-1.5 rounded-full border bg-zinc-900/50 transition-all duration-500 ${game.turn() === 'w' ? 'border-white/20' : 'border-emerald-500/20'
-                    }`}>
-                    <div className={`w-2 h-2 rounded-full animate-pulse ${game.turn() === 'w'
-                        ? 'bg-white shadow-[0_0_8px_rgba(255,255,255,0.4)]'
-                        : 'bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.4)]'
-                        }`} />
-                    <span className={`text-[10px] font-bold font-mono uppercase tracking-widest ${game.turn() === 'w' ? 'text-zinc-100' : 'text-emerald-400'
-                        }`}>
-                        {game.turn() === 'w' ? "White" : "Black"}
-                    </span>
-                </div>
-
                 {/* Right: Solved/Failed Badge */}
                 <div className={`text-[10px] font-mono px-2 py-0.5 rounded border transition-colors duration-300 ${puzzleStatus === 'solved' ? 'bg-green-500/10 border-green-500/50 text-green-500' :
                     puzzleStatus === 'failed' ? 'bg-red-500/10 border-red-500/50 text-red-500' :
@@ -244,7 +256,7 @@ export default function Chessboard() {
                     puzzleStatus === 'failed' ? 'bg-red-500/30' : 'bg-emerald-500/10 group-hover:bg-emerald-500/20'
                     }`}></div>
 
-                <div className={`relative p-3 rounded-xl bg-zinc-950/90 border border-zinc-800 shadow-2xl backdrop-blur-md transition-all duration-500 ${puzzleStatus === 'failed' ? 'border-red-500/40 shadow-red-500/10' : ''
+                <div className={`relative p-3 rounded-xl bg-white/[0.03] border border-white/5 shadow-2xl backdrop-blur-md transition-all duration-500 ${puzzleStatus === 'failed' ? 'border-red-500/40 shadow-red-500/10' : ''
                     }`}>
                     {puzzleStatus === 'loading' ? (
                         <div className="w-64 h-64 md:w-80 md:h-80 flex items-center justify-center bg-zinc-900/50">
@@ -339,10 +351,23 @@ export default function Chessboard() {
                             </AnimatePresence>
                         </div>
                     )}
-                </div>
-            </div>
 
-            {/* 3. BOTTOM FOOTER: Theme Tags */}
+                    {/* Glued Turn Indicator Below the Board (Right Aligned) */}
+                    <div className="absolute top-full right-3 z-40">
+                        <motion.div
+                            key={game.turn()}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            className={`flex items-center gap-2 px-3 py-1 rounded-b-md border-x border-b bg-zinc-950 transition-all duration-500 ${game.turn() === 'w' ? 'border-white/10' : 'border-emerald-500/20'
+                                }`}>
+                            <span className={`text-[9px] font-black font-mono uppercase tracking-[0.4em] whitespace-nowrap ${game.turn() === 'w' ? 'text-zinc-100' : 'text-emerald-400'
+                                }`}>
+                                {game.turn() === 'w' ? "White to move" : "Black to move"}
+                            </span>
+                        </motion.div>
+                    </div>
+                </div>
+            </div>            {/* 3. BOTTOM FOOTER: Theme Tags */}
             <div className="mt-8 w-full">
                 <p className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest mb-3">Tactical Themes</p>
                 <div className="flex flex-wrap gap-2">
@@ -356,6 +381,11 @@ export default function Chessboard() {
                             +{puzzleData.themes.length - 5} more
                         </span>
                     )}
+                </div>
+                <div className="mt-6 flex justify-center">
+                    <span className="text-[8px] font-mono text-zinc-400 uppercase tracking-widest opacity-70">
+                        Data provided by <a href="https://lichess.org" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-500 transition-colors font-bold text-zinc-300">Lichess</a>
+                    </span>
                 </div>
             </div>
         </div>

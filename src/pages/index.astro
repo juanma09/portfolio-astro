@@ -9,7 +9,7 @@ import LayoutSection from "../layouts/LayoutSection.astro";
 
 import "../styles/global.css";
 import StravaSummary from "../components/strava/stravaSummary.astro";
-import WakaTimeSummary from "../components/wakatime/WakaTimeSummary";
+import WakaTime from "../components/wakatime/WakaTime.astro";
 ---
 
 <BaseLayout>
@@ -20,12 +20,7 @@ import WakaTimeSummary from "../components/wakatime/WakaTimeSummary";
             <Experience />
         </div>
         <div slot="sidebar" class="mt-2 lg:mt-[88px]">
-            <p
-                class="text-[10px] font-mono uppercase tracking-[0.2em] text-emerald-500 font-bold mb-4 ml-1"
-            >
-                Latest Run
-            </p>
-            <StravaSummary />
+            <WakaTime />
         </div>
     </LayoutSection>
 
@@ -35,17 +30,22 @@ import WakaTimeSummary from "../components/wakatime/WakaTimeSummary";
         </div>
         <div slot="sidebar" class="mt-2 lg:mt-[88px]">
             <div class="flex justify-center lg:justify-start">
-                <Chessboard client:load />
+                <Chessboard client:visible />
             </div>
         </div>
     </LayoutSection>
 
-    <LayoutSection>
+    <Skills />
+    <!-- <LayoutSection>
         <div slot="main">
-            <Skills />
         </div>
         <div slot="sidebar" class="mt-2 lg:mt-[88px]">
-            <WakaTimeSummary client:visible />
+            <p
+                class="text-[10px] font-mono uppercase tracking-[0.2em] text-emerald-500 font-bold mb-4 ml-1"
+            >
+                Latest Run
+            </p>
+            <StravaSummary />
         </div>
-    </LayoutSection>
+    </LayoutSection> -->
 </BaseLayout>

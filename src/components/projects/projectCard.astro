@@ -16,7 +16,7 @@ const { title, description, link, imageUrl, tags } = Astro.props;
   rel="noopener noreferrer"
   class="group block w-full cursor-pointer no-underline transition-transform duration-500 hover:scale-[1.01]"
 >
-  <div class="relative aspect-[16/10] overflow-hidden rounded-2xl bg-zinc-900 mb-6 border border-white/5">
+  <div class="relative aspect-[16/10] overflow-hidden rounded-2xl bg-white/[0.03] mb-6 border border-white/5">
     <img
       src={imageUrl}
       alt={title}
@@ -28,7 +28,7 @@ const { title, description, link, imageUrl, tags } = Astro.props;
   <div class="space-y-3">
     <div class="flex flex-wrap gap-2">
       {tags.map((tag) => (
-        <span class="text-[10px] uppercase tracking-widest font-bold px-2 py-1 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-500 group-hover:border-emerald-500/30 group-hover:text-emerald-400 transition-all duration-500">
+        <span class="text-[10px] uppercase tracking-widest font-bold px-2 py-1 rounded-md bg-white/[0.03] border border-white/5 text-zinc-500 group-hover:border-emerald-500/30 group-hover:text-emerald-400 transition-all duration-500">
           {tag}
         </span>
       ))}

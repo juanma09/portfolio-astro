@@ -1,46 +1,83 @@
 ---
-import SkillGroup from "./SkillGroup.tsx";
+import SkillCard from "./SkillCard.astro";
 
-const skillData = [
+const skillGroups = [
     {
-        category: "Languages",
-        items: ["TypeScript", "Node.js", "Python", "Go", "SQL"],
+        category: "Systems & Backend Architecture",
+        // Focuses on high-performance and scalability
+        items: [
+            { name: "Python", icon: "simple-icons:python" },
+            { name: "TypeScript", icon: "simple-icons:typescript" },
+            { name: ".NET", icon: "simple-icons:dotnet" },
+            { name: "C++", icon: "simple-icons:cplusplus" },
+            { name: "FastAPI", icon: "simple-icons:fastapi" },
+        ],
     },
     {
-        category: "Frameworks",
-        items: ["Astro", "React", "FastAPI", "Express", "Tailwind"],
+        category: "Modern Frontend & Mobile",
+        // Rounds you out as a complete Full-Stack engineer
+        items: [
+            { name: "Flutter", icon: "simple-icons:flutter" },
+            { name: "React", icon: "simple-icons:react" },
+            { name: "Astro", icon: "simple-icons:astro" },
+            { name: "Tailwind CSS", icon: "simple-icons:tailwindcss" },
+            { name: "Dart", icon: "simple-icons:dart" },
+        ],
     },
     {
-        category: "Infrastructure",
-        items: ["Docker", "Ollama", "Redis", "PostgreSQL", "Nginx"],
+        category: "Applied AI & Automation",
+        // Showcases your work with LLMs and workflow orchestration
+        items: [
+            { name: "Ollama", icon: "lucide:cpu" },
+            { name: "LangChain", icon: "lucide:workflow" },
+            { name: "Vector Databases", icon: "lucide:database" },
+            { name: "n8n", icon: "simple-icons:n8n" }, // Added based on your automation expertise
+            { name: "Chatwoot", icon: "simple-icons:chatwoot" },
+        ],
     },
     {
-        category: "AI & Automation",
-        items: ["LangChain", "Chatwoot", "Vector DBs", "OpenAI API"],
+        category: "Cloud & DevOps Infrastructure",
+        // Demonstrates your "home lab" and deployment reliability skills
+        items: [
+            { name: "Docker", icon: "simple-icons:docker" },
+            { name: "PostgreSQL", icon: "simple-icons:postgresql" },
+            { name: "Redis", icon: "simple-icons:redis" },
+            { name: "Nginx", icon: "simple-icons:nginx" },
+            { name: "Proxmox", icon: "simple-icons:proxmox" }, // Highlights your infrastructure depth
+        ],
     },
 ];
 ---
 
-<section id="skills" class="max-w-6xl mx-auto px-6 pt-12 mb-20">
-    <div class="mb-20 space-y-4">
-        <h2 class="text-3xl md:text-4xl font-bold tracking-tighter text-white">
+<section id="skills" class="max-w-6xl mx-auto px-6 pt-12 mb-32 scroll-mt-20">
+    <div class="mb-16 space-y-4">
+        <h2 class="text-3xl md:text-5xl font-bold tracking-tighter text-white">
             Technical Arsenal
         </h2>
-        <div class="h-1 w-20 bg-emerald-500 rounded-full"></div>
+        <div class="h-1.5 w-24 bg-emerald-500 rounded-full"></div>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-20">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-12 gap-y-16">
         {
-            skillData.map((group, index) => (
-                <div
-                    class="reveal-on-scroll opacity-0"
-                    style={`animation-delay: ${index * 150}ms;`}
-                >
-                    <SkillGroup
-                        category={group.category}
-                        items={group.items}
-                        client:visible
-                    />
+            skillGroups.map((group, groupIndex) => (
+                <div class="space-y-8">
+                    <div class="flex items-center gap-4">
+                        <h3 class="text-zinc-500 font-mono text-[11px] uppercase tracking-[0.4em] font-semibold grow-0 whitespace-nowrap">
+                            {group.category}
+                        </h3>
+                        <div class="h-px grow bg-gradient-to-r from-zinc-800 to-transparent" />
+                    </div>
+
+                    <div class="flex flex-wrap gap-3">
+                        {group.items.map((skill, index) => (
+                            <div
+                                class="reveal-on-scroll opacity-0"
+                                style={`animation-delay: ${groupIndex * 150 + index * 50}ms;`}
+                            >
+                                <SkillCard {...skill} />
+                            </div>
+                        ))}
+                    </div>
                 </div>
             ))
         }
@@ -48,33 +85,36 @@ const skillData = [
 </section>
 
 <script>
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('animate-reveal');
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1 });
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("animate-reveal");
+                    observer.unobserve(entry.target);
+                }
+            });
+        },
+        { threshold: 0.1 },
+    );
 
-    document.querySelectorAll('.reveal-on-scroll').forEach((el) => {
+    document.querySelectorAll(".reveal-on-scroll").forEach((el) => {
         observer.observe(el);
     });
 </script>
 
 <style is:global>
-  @keyframes reveal {
-    from {
-      opacity: 0;
-      transform: translateY(30px);
+    @keyframes reveal {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
 
-  .animate-reveal {
-    animation: reveal 1s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  }
+    .reveal-on-scroll.animate-reveal {
+        animation: reveal 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    }
 </style>

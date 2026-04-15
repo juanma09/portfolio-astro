@@ -43,7 +43,7 @@ const dateLabel = new Date(start_date).toLocaleDateString("en-US", {
 ---
 
 <div
-    class="group relative bg-zinc-950 p-5 rounded-2xl border border-zinc-800 hover:border-emerald-500/50 transition-all duration-300 overflow-hidden shadow-2xl w-full max-w-xs mx-auto lg:max-w-none"
+    class="group relative bg-white/[0.03] p-5 rounded-2xl border border-white/5 hover:border-emerald-500/30 transition-all duration-300 overflow-hidden shadow-2xl w-full max-w-xs mx-auto lg:max-w-none"
 >
     <div
         class="absolute -right-4 -top-4 w-24 h-24 bg-emerald-500/10 rounded-full blur-3xl group-hover:bg-emerald-500/20 transition-colors"
@@ -60,7 +60,7 @@ const dateLabel = new Date(start_date).toLocaleDateString("en-US", {
                 <h3 class="text-zinc-100 font-medium leading-tight truncate" title={name}>{name}</h3>
                 <p class="text-zinc-500 text-[11px] font-mono">{dateLabel}</p>
             </div>
-            <div class="bg-zinc-900 px-2 py-1 rounded border border-zinc-800 flex-shrink-0">
+            <div class="bg-white/[0.05] px-2 py-1 rounded border border-white/5 flex-shrink-0">
                 <span class="text-zinc-300 font-mono text-xs"
                     >{formattedDistance}km</span
                 >
@@ -83,7 +83,7 @@ const dateLabel = new Date(start_date).toLocaleDateString("en-US", {
             </svg>
         </div>
 
-        <div class="grid grid-cols-2 gap-2 border-t border-zinc-900 pt-4">
+        <div class="grid grid-cols-2 gap-2 border-t border-white/5 pt-4">
             <div class="flex flex-col">
                 <span
                     class="text-zinc-600 text-[9px] uppercase font-bold tracking-widest"
@@ -100,6 +100,11 @@ const dateLabel = new Date(start_date).toLocaleDateString("en-US", {
                     >+{total_elevation_gain}m</span
                 >
             </div>
+        </div>
+        <div class="mt-2 flex justify-end">
+            <span class="text-[8px] font-mono text-zinc-400 uppercase tracking-widest opacity-70">
+                Data provided by <a href="https://www.strava.com" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-500 transition-colors text-zinc-300 font-bold">Strava</a>
+            </span>
         </div>
     </div>
 </div>

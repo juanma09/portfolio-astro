@@ -3,20 +3,23 @@ import ExperienceGroup from "./ExperienceGroup.astro";
 
 const workHistory = [
   {
-    company: "Lumina AI",
-    role: "Senior Full Stack Engineer",
-    period: "2024 — PRESENT",
+    company: "International Games System",
+    role: "Research And Development Intern",
+    location: "Taipei, Taiwan",
+    period: "July 2025 — December 2025",
     description: [
-      "Architecting distributed systems for real-time data processing.",
+      "Architected high-traffic reward systems and scalable APIs with a focus on data integrity and real-time processing.",
+      "Optimized game mechanics for 30+ titles through probability modeling, driving a 10% boost in user engagement.",
     ],
-    technologies: ["React", "Astro", "TypeScript"],
+    technologies: ["Python", "MongoDB", "Redis"],
   },
   {
-    company: "Nexus Systems",
-    role: "Frontend Lead",
-    period: "2022 — 2024",
+    company: "AgilTech",
+    role: "Junior Software Developer",
+    location: "Asunción, Paraguay (Remote)",
+    period: "December 2023 — February 2024",
     description: [
-      "Led the migration of a legacy dashboard to a modern tech stack.",
+      "Contributed to the development of a new internal tool for the company.",
     ],
     technologies: ["Next.js", "Tailwind CSS"],
   },
@@ -24,23 +27,23 @@ const workHistory = [
 
 const studyHistory = [
   {
-    company: "Tech University",
-    role: "B.Sc. in Computer Science",
-    period: "2018 — 2022",
-    description: [
-      "Specialized in Distributed Systems and Cloud Computing.",
-      "Completed thesis on low-latency microservices.",
-    ],
-    technologies: ["C++", "Python", "Docker", "Kubernetes"],
+    company: "National Taiwan University of Science and Technology",
+    role: "Exchange Program for Information Engineering",
+    location: "Taipei, Taiwan",
+    period: "February 2024 - December 2025",
+    techologies: [],
   },
   {
-    company: "Online Academy",
-    role: "Full Stack Development Bootcamp",
-    period: "2017",
-    description: [
-      "Intensive training on modern web technologies and agile methodologies.",
-    ],
-    technologies: ["JavaScript", "React", "Node.js"],
+    company: "Universidad Politécnica Taiwán-Paraguay",
+    role: "Bachelor’s Degree in Information Engineering",
+    location: "Paraguay - Taiwan",
+    period: "February 2022 - December 2025",
+  },
+  {
+    company: "Colegio Campoalto",
+    role: "High School Diploma Dec 2021",
+    location: "Asunción, Paraguay",
+    period: "December 2021",
   },
 ];
 ---
@@ -54,19 +57,29 @@ const studyHistory = [
   </div>
   <div class="flex flex-col gap-12">
     <!-- Tab Switcher -->
-    <div class="flex gap-8 border-b border-zinc-800/50">
+    <div
+      class="flex gap-8 border-b border-zinc-800/50 relative"
+      id="tabs-container"
+    >
       <button
         id="work-tab"
-        class="pb-4 px-2 text-sm font-mono uppercase tracking-widest transition-all duration-300 border-b-2 border-emerald-500 text-zinc-100"
+        class="pb-4 px-2 text-sm font-mono uppercase tracking-widest transition-all duration-300 text-zinc-100"
       >
         Work
       </button>
       <button
         id="study-tab"
-        class="pb-4 px-2 text-sm font-mono uppercase tracking-widest transition-all duration-300 border-b-2 border-transparent text-zinc-500 hover:text-zinc-300"
+        class="pb-4 px-2 text-sm font-mono uppercase tracking-widest transition-all duration-300 text-zinc-500 hover:text-zinc-300"
       >
         Study
       </button>
+      <!-- Dynamic Animated Bar -->
+      <div
+        id="tab-indicator"
+        class="absolute bottom-0 h-0.5 bg-emerald-500 transition-all duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]"
+        style="left: 0; width: 0;"
+      >
+      </div>
     </div>
 
     <!-- Content Containers -->
@@ -81,30 +94,36 @@ const studyHistory = [
 </section>
 
 <script>
-  const workTab = document.getElementById("work-tab");
-  const studyTab = document.getElementById("study-tab");
+  const workTab = document.getElementById("work-tab") as HTMLButtonElement;
+  const studyTab = document.getElementById("study-tab") as HTMLButtonElement;
   const workContent = document.getElementById("work-content");
   const studyContent = document.getElementById("study-content");
+  const indicator = document.getElementById("tab-indicator");
 
   function switchTab(activeId: "work" | "study") {
-    if (!workTab || !studyTab || !workContent || !studyContent) return;
+    if (!workTab || !studyTab || !workContent || !studyContent || !indicator)
+      return;
 
+    const activeTab = activeId === "work" ? workTab : studyTab;
+    const inactiveTab = activeId === "work" ? studyTab : workTab;
+
+    // Update Text Styles
+    activeTab.classList.add("text-zinc-100");
+    activeTab.classList.remove("text-zinc-500");
+    inactiveTab.classList.remove("text-zinc-100");
+    inactiveTab.classList.add("text-zinc-500");
+
+    // Move Indicator
+    indicator.style.left = `${activeTab.offsetLeft}px`;
+    indicator.style.width = `${activeTab.offsetWidth}px`;
+
+    // Toggle Content
     if (activeId === "work") {
-      workTab.classList.add("border-emerald-500", "text-zinc-100");
-      workTab.classList.remove("border-transparent", "text-zinc-500");
-      studyTab.classList.remove("border-emerald-500", "text-zinc-100");
-      studyTab.classList.add("border-transparent", "text-zinc-500");
-
       workContent.classList.remove("hidden");
       workContent.classList.add("block");
       studyContent.classList.add("hidden");
       studyContent.classList.remove("block");
     } else {
-      studyTab.classList.add("border-emerald-500", "text-zinc-100");
-      studyTab.classList.remove("border-transparent", "text-zinc-500");
-      workTab.classList.remove("border-emerald-500", "text-zinc-100");
-      workTab.classList.add("border-transparent", "text-zinc-500");
-
       studyContent.classList.remove("hidden");
       studyContent.classList.add("block");
       workContent.classList.add("hidden");
@@ -114,4 +133,9 @@ const studyHistory = [
 
   workTab?.addEventListener("click", () => switchTab("work"));
   studyTab?.addEventListener("click", () => switchTab("study"));
+
+  // Initial position
+  window.addEventListener("load", () => switchTab("work"));
+  // Also run immediately to avoid jump if possible
+  switchTab("work");
 </script>

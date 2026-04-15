@@ -1,33 +1,42 @@
 ---
 import ProjectCard from "./projectCard.astro";
+import wordleaiImg from "../../assets/wordleai.png";
+import squarescapeImg from "../../assets/squarescape.jpg";
+import battleShipImg from "../../assets/battleship.png";
+import blackjackImg from "../../assets/blackjack.png";
+
 const projects = [
   {
-    title: "NeuralBridge Middleware",
-    description: "A high-performance Node.js service connecting local Ollama instances to Chatwoot webhooks. Features request queuing, token-usage monitoring, and automated response streaming.",
-    link: "https://github.com/yourusername/neural-bridge",
-    imageUrl: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?q=80&w=2000&auto=format&fit=crop",
-    tags: ["Node.js", "Ollama", "Webhooks", "LLM Ops", "TypeScript"]
+    title: "Wordle AI",
+    description:
+      "A high-performance Node.js service connecting local Ollama instances to Chatwoot webhooks. Features request queuing, token-usage monitoring, and automated response streaming.",
+    link: "https://mateo.elizeche.com/wordle/",
+    imageUrl: wordleaiImg.src,
+    tags: ["Python", "React", "Flask", "Docker"],
   },
   {
-    title: "Architect Flow",
-    description: "Distributed system visualizer that transforms Docker Compose files into interactive SVG architecture maps. Built with TypeScript and focused on infrastructure observability.",
-    link: "https://github.com/yourusername/architect-flow",
-    imageUrl: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?q=80&w=2000&auto=format&fit=crop",
-    tags: ["TypeScript", "Docker", "SVG", "Infrastructure", "DevOps"]
+    title: "SquareScape",
+    description:
+      "A puzzle-platformer for GMTK Game Jam 2024, ranking in the top 8% of 7,576 entries.",
+    link: "https://juanma-099.itch.io/squarescape",
+    imageUrl: squarescapeImg.src,
+    tags: ["Unity", "C#", "GameDev"],
   },
   {
-    title: "PulseSync API",
-    description: "Custom YouTube Music integration using cookie-based authentication and Redis for caching. Powers real-time 'Now Playing' indicators across various dashboard platforms.",
-    link: "https://github.com/yourusername/pulsesync",
-    imageUrl: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?q=80&w=2000&auto=format&fit=crop",
-    tags: ["Redis", "API Design", "Auth", "YouTube Music", "Backend"]
+    title: "Battleship Game",
+    description:
+      "A desktop multiplayer implementation of the classic Battleship game, allowing players to challenge each other over a local network.",
+    link: "https://github.com/juanma09/BattleshipSFML",
+    imageUrl: battleShipImg.src,
+    tags: ["C++", "SFML", "GAMEDEV", "UDP", "TCP"],
   },
   {
-    title: "NeuralBridge Middleware", // Note: This appears to be a duplicate in your list
-    description: "A high-performance Node.js service connecting local Ollama instances to Chatwoot webhooks. Features request queuing, token-usage monitoring, and automated response streaming.",
-    link: "https://github.com/yourusername/neural-bridge",
-    imageUrl: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?q=80&w=2000&auto=format&fit=crop",
-    tags: ["Node.js", "AI", "Streaming", "Monitoring", "Queue"]
+    title: "Blackjack Game",
+    description:
+      "A networked implementation of the classic casino game featuring a dedicated server and client. It exposes an HTTP API to manage betting, real-time move validation, and game state synchronization between the player and dealer.",
+    link: "https://github.com/juanma09/blackJackWebsite",
+    imageUrl: blackjackImg.src,
+    tags: ["Java", "NodeJS", "API Design", "REST", "Networking"],
   },
 ];
 ---

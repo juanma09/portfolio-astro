@@ -2,69 +2,111 @@
 interface Props {
   role: string;
   company: string;
+  location?: string;
   period: string;
   description: string[];
   technologies?: string[];
 }
 
-const {
-  role,
-  company,
-  period,
-  description,
-  technologies,
-} = Astro.props;
+const { role, company, location, period, description, technologies } =
+  Astro.props;
 ---
 
 <div class="relative group/card">
   {/* Timeline Dot */}
   <div class="absolute -left-[27px] top-7 z-10">
-    <div class="h-3 w-3 rounded-full bg-zinc-950 border-2 border-zinc-800 group-hover/card:border-emerald-500 transition-colors duration-500 flex items-center justify-center">
-      <div class="h-1 w-1 rounded-full bg-zinc-800 group-hover/card:bg-emerald-500 transition-colors duration-500" />
+    <div
+      class="h-3 w-3 rounded-full bg-black border-2 border-white/10 group-hover/card:border-emerald-500 transition-colors duration-500 flex items-center justify-center"
+    >
+      <div
+        class="h-1 w-1 rounded-full bg-white/10 group-hover/card:bg-emerald-500 transition-colors duration-500"
+      >
+      </div>
     </div>
   </div>
 
-  <div class="relative p-6 rounded-xl bg-zinc-900/50 border border-zinc-800/50 hover:border-emerald-500/20 hover:bg-zinc-900/80 transition-all duration-500 flex flex-col gap-4">
+  <div
+    class="relative p-6 rounded-xl bg-white/[0.03] border border-white/5 hover:border-emerald-500/20 hover:bg-white/[0.05] transition-all duration-500 flex flex-col gap-4"
+  >
     {/* Header */}
-    <div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
-      <div class="flex flex-col gap-1">
-        <h4 class="text-zinc-100 font-medium text-lg tracking-tight group-hover/card:text-emerald-400 transition-colors duration-500">
-          {role}
-        </h4>
-        <div class="flex items-center gap-2 text-sm text-emerald-500/80 font-mono">
-          <span class="h-1 w-1 rounded-full bg-emerald-500/50" />
-          {company}
+    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+      <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-1">
+          <h4
+            class="text-zinc-100 font-medium text-lg tracking-tight group-hover/card:text-emerald-400 transition-colors duration-500"
+          >
+            {role}
+          </h4>
+          <div class="flex items-center gap-3 w-full">
+            <div class="text-sm text-emerald-500/70 font-mono">
+              {company}
+            </div>
+
+            {
+              location && (
+                <div class="flex items-center gap-1.5 text-[10px] text-zinc-500 font-mono uppercase tracking-wider">
+                  <span class="text-zinc-700 font-bold">·</span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="10"
+                    height="10"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2.5"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="text-emerald-500/30"
+                  >
+                    <>
+                      <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                      <circle cx="12" cy="10" r="3" />
+                    </>
+                  </svg>
+                  {location}
+                </div>
+              )
+            }
+          </div>
         </div>
       </div>
-      <div class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest group-hover/card:text-emerald-500/60 transition-colors duration-500">
+      <div
+        class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest group-hover/card:text-emerald-500/50 transition-colors duration-500 whitespace-nowrap pt-1"
+      >
         {period}
       </div>
     </div>
 
     {/* Description List */}
-    <ul class="flex flex-col gap-2">
-      {description.map((item) => (
-        <li class="flex items-start gap-3 text-sm text-zinc-400/90 leading-relaxed">
-          <div class="mt-[7px] h-1 w-1 rounded-full bg-zinc-800 group-hover/card:bg-emerald-500/40 transition-colors duration-500 flex-shrink-0" />
-          <span>{item}</span>
-        </li>
-      ))}
-    </ul>
-
+    {
+      description && (
+        <ul class="flex flex-col gap-2">
+          {description.map((item) => (
+            <li class="flex items-start gap-3 text-sm text-zinc-400/90 leading-relaxed">
+              <div class="mt-[7px] h-1 w-1 rounded-full bg-zinc-800 group-hover/card:bg-emerald-500/30 transition-colors duration-500 flex-shrink-0" />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      )
+    }
     {/* Tech Stack */}
-    {technologies && (
-      <div class="flex flex-wrap gap-1.5 pt-1">
-        {technologies.map((tech) => (
-          <span
-            class="px-2 py-0.5 text-[9px] uppercase tracking-wider font-mono font-medium text-zinc-500 bg-zinc-800/20 rounded border border-zinc-800/30 group-hover/card:border-emerald-500/10 group-hover/card:text-emerald-400/50 transition-colors duration-500"
-          >
-            {tech}
-          </span>
-        ))}
-      </div>
-    )}
+    {
+      technologies && (
+        <div class="flex flex-wrap gap-1.5 pt-1">
+          {technologies.map((tech) => (
+            <span class="px-2 py-0.5 text-[9px] uppercase tracking-wider font-mono font-medium text-zinc-500 bg-zinc-800/20 rounded border border-zinc-800/30 group-hover/card:border-emerald-500/10 group-hover/card:text-emerald-400/40 transition-colors duration-500">
+              {tech}
+            </span>
+          ))}
+        </div>
+      )
+    }
 
     {/* Subtle Glow Effect */}
-    <div class="absolute inset-0 -z-10 bg-emerald-500/2 blur-2xl opacity-0 group-hover/card:opacity-100 transition-opacity duration-700" />
+    <div
+      class="absolute inset-0 -z-10 bg-emerald-500/1 blur-2xl opacity-0 group-hover/card:opacity-100 transition-opacity duration-700"
+    >
+    </div>
   </div>
 </div>
