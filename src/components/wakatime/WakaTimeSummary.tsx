@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const BASE_GRAY = '#969699';
@@ -11,15 +11,44 @@ interface Language {
 }
 
 interface Props {
-  languages: Language[];
-  totalText: string;
+  apiUrl: string; // Changed from String to string
 }
 
-export default function WakaTimeReport({ languages, totalText }: Props) {
+export default function WakaTimeReport({ apiUrl }: Props) {
+  const [stats, setStats] = useState<{ languages: Language[]; totalText: string }>({
+    languages: [],
+    totalText: ""
+  });
+  const [loading, setLoading] = useState(true);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    setLoading(true);
+    fetch(apiUrl)
+      .then(res => res.json())
+      .then(data => {
+        setStats(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error("Failed to fetch WakaTime stats:", err);
+        setLoading(false);
+      });
+  }, [apiUrl]);
+
+  // Destructure for easier access in the JSX
+  const { languages, totalText } = stats;
 
   const radius = 70;
   const circumference = 2 * Math.PI * radius;
+
+  if (loading) {
+    return (
+      <div className="max-w-md w-full mx-auto mt-12 p-6 rounded-xl bg-white/[0.03] border border-white/5 flex items-center justify-center min-h-[300px]">
+        <div className="text-zinc-500 font-mono text-xs animate-pulse">INITIALIZING_METRICS...</div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-md w-full mx-auto mt-12 p-6 rounded-xl bg-white/[0.03] border border-white/5 shadow-2xl backdrop-blur-md">
@@ -85,7 +114,7 @@ export default function WakaTimeReport({ languages, totalText }: Props) {
         {/* Center Label */}
         <div className="absolute flex flex-col items-center justify-center pointer-events-none">
           <AnimatePresence mode="wait">
-            {hoveredIndex !== null ? (
+            {hoveredIndex !== null && languages[hoveredIndex] ? (
               <motion.div
                 key="active"
                 initial={{ opacity: 0, scale: 0.9 }}

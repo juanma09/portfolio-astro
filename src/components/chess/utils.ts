@@ -20,10 +20,10 @@ export const fetchPuzzle = async (username: string, token: string) => {
     // Normalize orientation: Lichess uses "white"/"black", we use "w"/"b"
     // Fallback: Use the turn indicator from the FEN if orientation is missing
     const fenTurn = activity.puzzle.fen.split(' ')[1]; // 'w' or 'b'
-    let orientation = activity.puzzle.orientation === 'black' ? 'b' : 
-                     activity.puzzle.orientation === 'white' ? 'w' : 
-                     fenTurn; // Use FEN as fallback
-    
+    let orientation = activity.puzzle.orientation === 'black' ? 'b' :
+        activity.puzzle.orientation === 'white' ? 'w' :
+            fenTurn; // Use FEN as fallback
+
     return {
         fen: activity.puzzle.fen,
         moves: activity.puzzle.solution,
